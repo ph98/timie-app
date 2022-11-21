@@ -1,0 +1,13 @@
+.event-page{
+    background-color: aquamarine;
+    min-height: 100vh;
+    .header{
+        justify-content: space-between;
+        padding: 1rem;
+    }
+
+    .table-col{
+        padding:1rem;
+        width: 100%;
+    }
+}

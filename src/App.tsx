@@ -6,8 +6,11 @@ import {
 } from "@tanstack/react-query";
 
 import "./App.css";
+
 import EventsPage from "./pages/events/events";
 import LoginPage from "./pages/login/login";
+import EventPage from "./pages/event/event";
+
 
 const router = createBrowserRouter([
   {
@@ -22,6 +25,10 @@ const router = createBrowserRouter([
     path: "/events",
     element: <EventsPage />,
   },
+  {
+    path: "/events/:id",
+    element: <EventPage />
+  }
 ]);
 
 const queryClient = new QueryClient();
