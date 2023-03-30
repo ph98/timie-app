@@ -14,7 +14,8 @@ const EventsPage = () => {
     queryKey: ["events"],
     queryFn: getEvents,
   });
-  console.log("data", data);
+
+  
   return (
     <div className="events-page">
       <Row className="header">
