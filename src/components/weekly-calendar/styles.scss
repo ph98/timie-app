@@ -1,0 +1,53 @@
+.weekly-picker {
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  .week-days {
+    display: flex;
+    flex-direction: column;
+    padding-top: 51px;
+    .week-day-item{
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border-bottom: 1px solid #313131;
+
+        &:last-of-type{
+            border: none;
+        }
+    }
+  }
+  .hours {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+  }
+  .hour-row {
+    display: flex;
+    flex-direction: row;
+  }
+  .cell {
+    background: white;
+    border-bottom: 1px solid #333;
+    border-right: 1px solid #333;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    &:first-of-type{
+        border-left: 1px solid #333;
+    }
+
+    &.selected {
+        background-color: rosybrown;
+    }
+  }
+}
