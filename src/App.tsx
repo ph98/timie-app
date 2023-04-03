@@ -4,13 +4,18 @@ import {
   Routes,
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import dayjs from 'dayjs'
+import isBetween from 'dayjs/plugin/isBetween'
 import "./App.css";
 
 import EventsPage from "./pages/events/events";
 import LoginPage from "./pages/login/login";
 import EventPage from "./pages/event/event";
 import Layout from "./components/layout";
+
+dayjs.extend(isBetween)
+
+
 const queryClient = new QueryClient({
   defaultOptions:{
     queries:{

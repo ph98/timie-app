@@ -1,53 +1,74 @@
 .weekly-picker {
-  background-color: white;
+  // background-color: wh ite;
   display: flex;
   flex-direction: row;
   width: 100%;
   height: 100%;
+  max-width: fit-content;
+
   .week-days {
     display: flex;
     flex-direction: column;
-    padding-top: 51px;
-    .week-day-item{
-        height: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        border-bottom: 1px solid #313131;
+    // padding-top: 51px;
+    .week-day-item {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem 0;
+      h3 {
+        margin: 0;
+      }
 
-        &:last-of-type{
-            border: none;
-        }
+      &:last-of-type {
+        border: none;
+      }
     }
   }
   .hours {
     display: flex;
     flex: 1;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-x: auto;
     flex-wrap: wrap;
+    max-width: fit-content;
   }
   .hour-row {
     display: flex;
     flex-direction: row;
+    padding: 18px 5px;
+    // border: 1px solid #333;
   }
   .cell {
-    background: white;
-    border-bottom: 1px solid #333;
-    border-right: 1px solid #333;
+    // border-right: 1px solid #333;
     height: 50px;
     width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     user-select: none;
-    &:first-of-type{
-        border-left: 1px solid #333;
-    }
-
+    transition: 0.5s all;
+    cursor: pointer;
+    opacity: 0.5;
+    &.hovered,
     &.selected {
-        background-color: rosybrown;
+      background: white;
+      // box-shadow: 0px 0px 10px 0px rgb(128 128 128 / 16%);
+      border: 1px solid transparent;
+      border-top-color: rgb(128 128 128 / 16%);
+      border-bottom-color: rgb(128 128 128 / 16%);
+      opacity: 1;
+    }
+    &.selected.hovered {
+      background-color: transparent;
+    }
+    &.first {
+      border-top-left-radius: 0.7rem;
+      border-bottom-left-radius: 0.7rem;
+      border-left-color: rgb(128 128 128 / 16%);
+    }
+    &.last {
+      border-top-right-radius: 0.7rem;
+      border-bottom-right-radius: 0.7rem;
+      border-right-color: rgb(128 128 128 / 16%);
     }
   }
 }

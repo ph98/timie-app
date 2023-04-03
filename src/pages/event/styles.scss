@@ -1,5 +1,5 @@
 .event-page{
-    background-color: aquamarine;
+    background-color: #fbfbfb;
     min-height: 100vh;
     .header{
         justify-content: space-between;
@@ -9,5 +9,14 @@
     .table-col{
         padding:1rem;
         width: 100%;
+
+        display: flex;
+        justify-content: center;
+    }
+    .month-title{
+        font-weight: bolder;
+        span{
+            font-weight: normal;
+        }
     }
 }

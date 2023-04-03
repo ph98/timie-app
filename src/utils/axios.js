@@ -2,10 +2,10 @@ import axios from "axios";
 
 const baseURL = process.env.REACT_APP_API_URL;
 
-console.log('baseURL', baseURL)
 const instance = axios.create({
   baseURL,
 });
+
 instance.interceptors.request.use(
   function (config) {
     return {
