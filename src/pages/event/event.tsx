@@ -28,7 +28,9 @@ const EventPage = () => {
     {
       onSettled: (data) => {
         const myVote = data.votes.find(({ by }: any) => by._id === user._id);
-        setSelected(myVote.votes);
+        if(myVote){
+          setSelected(myVote.votes);
+        }
       },
     }
   );
@@ -88,7 +90,7 @@ const EventPage = () => {
       <Row justify="center">
         <Col>
           <Table
-            rowKey={"_id"}
+            rowKey="_id"
             columns={[
               { title: "Name", dataIndex: ["by", "name"] },
               {
