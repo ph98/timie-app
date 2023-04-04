@@ -49,11 +49,16 @@ const EventPage = () => {
   const startDate = dayjs();
   return (
     <div className="event-page">
-      <header>Event: {data.event?.title}</header>
+      <Row>
+        <Typography.Title level={2} className="month-title">
+          {startDate.format("MMMM")} <span>{startDate.format("YYYY")}</span>
+        </Typography.Title>
 
-      <Typography.Title level={2} className="month-title">
-        {startDate.format("MMMM")} <span>{startDate.format("YYYY")}</span>
-      </Typography.Title>
+        <Typography.Title level={3} className="title">
+          - {data.event?.title}
+        </Typography.Title>
+      </Row>
+
       <Row>
         <Col className="table-col">
           <WeeklyPicker
