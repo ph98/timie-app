@@ -1,15 +1,16 @@
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
-import { Typography } from "antd";
+import { Avatar, Badge, Popover, Typography } from "antd";
 import "./styles.scss";
+import { scaleLinear } from "d3-scale";
+import { schemeGreens } from "d3-scale-chromatic";
 
 const weekdays = [...Array(7).keys()].map((i) =>
   dayjs().startOf("week").add(i, "day")
 );
 const hours = [...Array(24).keys()];
 
-const WeeklyPicker = ({ setSelectedCells, selectedCells }: any) => {
-
+const WeeklyPicker = ({ setSelectedCells, selectedCells, data = [] }: any) => {
   const [hovered, setHovered] = useState<any>(null);
 
   const [startNode, setStartNode] = useState<{
@@ -34,13 +35,15 @@ const WeeklyPicker = ({ setSelectedCells, selectedCells }: any) => {
       }
 
       setSelectedCells([
-        ...selectedCells.filter(
+        ...selectedCells
+        .filter(
           (item: any) =>
             !newCells.some(
               ({ day, hour }: { day: Dayjs; hour: number }) =>
                 item.hour === hour && dayjs(item.day).isSame(day, "day")
             )
-        ),
+        )
+        ,
         ...newCells.filter(
           (item: any) =>
             !selectedCells.some(
@@ -52,6 +55,27 @@ const WeeklyPicker = ({ setSelectedCells, selectedCells }: any) => {
       setStartNode(null);
     }
   };
+
+  const voteByCells = data
+    ?.map((item: any) =>
+      item.votes?.map((vote: any) => ({
+        ...vote,
+        by: item.by,
+      }))
+    )
+    .flat()
+    .filter((item: any) => item);
+
+  const votesForCell = (cellDay: Dayjs, cellHour: number) => {
+    return voteByCells.filter(
+      ({ hour, day }: any) =>
+        hour === cellHour && dayjs(day).isSame(cellDay, "day")
+    );
+  };
+
+  const colorScale = scaleLinear()
+    .domain([0, data.length-1])
+    .range(schemeGreens[6] as any);
 
   return (
     <div className="weekly-picker">
@@ -134,11 +158,28 @@ const WeeklyPicker = ({ setSelectedCells, selectedCells }: any) => {
                 onMouseEnter={(e) => {
                   setHovered({ day, hour });
                 }}
-                // onMouseLeave={(e) => {
-                //   setHovered(null);
-                // }}
               >
-                <Typography.Text strong> {hour}</Typography.Text>
+                <Popover
+                  placement="left"
+                  overlayClassName="voters"
+                  content={() =>
+                    votesForCell(day, hour).map(({ by }: any) => (
+                      <span key={by._id} className="voter-item">
+                        <Avatar size={"small"} src={by.image} />
+                        {by.name}
+                      </span>
+                    ))
+                  }
+                >
+                  <Badge
+                    count={votesForCell(day, hour).length}
+                    size="small"
+                    offset={[5, 0]}
+                    color={colorScale(votesForCell(day, hour).length) as any}
+                  >
+                    <Typography.Text strong> {hour}</Typography.Text>
+                  </Badge>
+                </Popover>
               </div>
             ))}
           </div>

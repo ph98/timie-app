@@ -1,4 +1,4 @@
-import { Button, Col, Row, Table, Typography, message } from "antd";
+import { Avatar, Button, Col, Row, Table, Typography, message } from "antd";
 import { useParams } from "react-router-dom";
 
 import WeeklyPicker from "../../components/weekly-calendar";
@@ -28,7 +28,7 @@ const EventPage = () => {
     {
       onSettled: (data) => {
         const myVote = data.votes.find(({ by }: any) => by._id === user._id);
-        if(myVote){
+        if (myVote) {
           setSelected(myVote.votes);
         }
       },
@@ -39,20 +39,10 @@ const EventPage = () => {
 
   const eventItem = useMutation({
     mutationFn: addVotes,
-    onMutate: async (newEvent) => {
-      await queryClient.cancelQueries({ queryKey: ["event", newEvent.id] });
-
-      // Snapshot the previous value
-      const previousEvent = queryClient.getQueryData(["event", newEvent.id]);
-
-      // Optimistically update to the new value
-      queryClient.setQueryData(["event", newEvent.id], newEvent);
-      queryClient.invalidateQueries(["event"]);
-      // Return a context with the previous and new todo
-      return { previousEvent, newEvent };
-    },
-    onSettled: (data) => {
+    onSuccess: async (newEvent) => {
       message.success("Vote added!");
+      await queryClient.cancelQueries({ queryKey: ["event", newEvent.id] });
+      queryClient.invalidateQueries(["event"]);
     },
   });
 
@@ -69,6 +59,7 @@ const EventPage = () => {
           <WeeklyPicker
             setSelectedCells={setSelected}
             selectedCells={selected}
+            data={data.votes}
           />
         </Col>
       </Row>
@@ -92,6 +83,11 @@ const EventPage = () => {
           <Table
             rowKey="_id"
             columns={[
+              {
+                title: "",
+                dataIndex: ["by", "image"],
+                render: (image) => <Avatar size={"small"} src={image} />,
+              },
               { title: "Name", dataIndex: ["by", "name"] },
               {
                 dataIndex: "created_at",

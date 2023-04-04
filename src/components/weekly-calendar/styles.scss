@@ -35,10 +35,8 @@
     display: flex;
     flex-direction: row;
     padding: 8px 5px;
-    // border: 1px solid #333;
   }
   .cell {
-    // border-right: 1px solid #333;
     height: 50px;
     width: 50px;
     display: flex;
@@ -47,9 +45,12 @@
     user-select: none;
     transition: 0.5s all;
     cursor: pointer;
-    opacity: 0.5;
+    opacity: 0.75;
     border: 1px solid transparent;
    
+    &.hovered {
+      opacity: 1;
+    }
     &.hovered,
     &.selected {
       background: white;
@@ -57,7 +58,6 @@
       border: 1px solid transparent;
       border-top-color: rgb(128 128 128 / 16%);
       border-bottom-color: rgb(128 128 128 / 16%);
-      opacity: 1;
     }
     &.selected.hovered {
       background-color: transparent;
@@ -72,5 +72,15 @@
       border-bottom-right-radius: 0.7rem;
       border-right-color: rgb(128 128 128 / 16%);
     }
+  }
+
+  
+}
+
+.voters{
+  .ant-popover-inner-content{
+
+    display: flex;
+    flex-direction: column;
   }
 }
