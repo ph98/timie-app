@@ -1,13 +1,14 @@
-import { Button, Col, Form, Row, Table, Typography, message } from "antd";
+import { Button, Col, Row, Table, Typography, message } from "antd";
 import { useParams } from "react-router-dom";
 
 import WeeklyPicker from "../../components/weekly-calendar";
 import axios from "../../utils/axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import "./styles.scss";
 import dayjs from "dayjs";
+import userContext from "../../context/userContext";
 
 const fetchEventData = (id: string) =>
   axios.get(`/events/${id}`).then(({ data }) => data);
@@ -16,11 +17,21 @@ const addVotes = ({ id, votes }: any) =>
   axios.post(`/events/${id}`, { votes }).then(({ data }) => data);
 
 const EventPage = () => {
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState<any>([]);
   const { id } = useParams();
 
-  const { data = {}, isLoading } = useQuery(["event", id], () =>
-    fetchEventData(id || "")
+  const { user } = useContext(userContext);
+
+  const { data = {}, isLoading } = useQuery(
+    ["event", id],
+    () => fetchEventData(id || ""),
+    {
+      onSettled: (data) => {
+        const myVote = data.votes.find(({ by }: any) => by._id === user._id);
+        console.log("myVote", myVote);
+        setSelected(myVote.votes);
+      },
+    }
   );
 
   console.log("data", data);
@@ -45,35 +56,23 @@ const EventPage = () => {
     },
   });
 
-  const startDate = dayjs()
+  const startDate = dayjs();
   return (
     <div className="event-page">
       <header>Event: {data.event?.title}</header>
 
       <Typography.Title level={2} className="month-title">
-        {startDate.format('MMMM')}
-        {' '}
-        <span>{startDate.format('YYYY')}</span>
+        {startDate.format("MMMM")} <span>{startDate.format("YYYY")}</span>
       </Typography.Title>
       <Row>
         <Col className="table-col">
-          <WeeklyPicker onChange={setSelected} />
+          <WeeklyPicker
+            setSelectedCells={setSelected}
+            selectedCells={selected}
+          />
         </Col>
       </Row>
-      <Row>
-        <Typography>Voters:</Typography>
-      
-      </Row>
-      <Row>
-      <Table
-          columns={[{ title: "Name", dataIndex: "by" },
-        {
-          dataIndex: 'created_at', title: 'Date'
-        }]}
-          dataSource={data.votes}
-        />
-      </Row>
-      <Row justify="center">
+      <Row justify="end">
         <Col>
           <Button
             size="large"
@@ -82,6 +81,27 @@ const EventPage = () => {
           >
             Submit
           </Button>
+        </Col>
+      </Row>
+      <Row>
+        <Typography>Voters:</Typography>
+      </Row>
+
+      <Row justify="center">
+        <Col>
+          <Table
+            columns={[
+              { title: "Name", dataIndex: ["by", "name"] },
+              {
+                dataIndex: "created_at",
+                title: "Date",
+                render: (date) => dayjs(date).format("YYYY/MM/DD HH:mm"),
+              },
+              { title: "Votes", dataIndex: ["votes", "length"] },
+            ]}
+            loading={isLoading}
+            dataSource={data.votes}
+          />
         </Col>
       </Row>
     </div>

@@ -1,20 +1,16 @@
 import dayjs, { Dayjs } from "dayjs";
-import "./styles.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Typography } from "antd";
+import "./styles.scss";
 
 const weekdays = [...Array(7).keys()].map((i) =>
   dayjs().startOf("week").add(i, "day")
 );
 const hours = [...Array(24).keys()];
 
-const WeeklyPicker = ({ onChange }: any) => {
-  const [selectedCells, setSelectedCells] = useState<any>([]);
+const WeeklyPicker = ({ setSelectedCells, selectedCells }: any) => {
 
   const [hovered, setHovered] = useState<any>(null);
-  useEffect(() => {
-    onChange(selectedCells);
-  }, [selectedCells]);
 
   const [startNode, setStartNode] = useState<{
     day: Dayjs;
@@ -57,7 +53,6 @@ const WeeklyPicker = ({ onChange }: any) => {
     }
   };
 
-  console.log("startNode, hovered", startNode, hovered);
   return (
     <div className="weekly-picker">
       <div className="week-days">

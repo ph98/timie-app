@@ -13,7 +13,7 @@
     .week-day-item {
       display: flex;
       flex-direction: column;
-      padding: 1rem 0;
+      padding: 7px 0;
       h3 {
         margin: 0;
       }
@@ -34,7 +34,7 @@
   .hour-row {
     display: flex;
     flex-direction: row;
-    padding: 18px 5px;
+    padding: 8px 5px;
     // border: 1px solid #333;
   }
   .cell {
@@ -48,6 +48,8 @@
     transition: 0.5s all;
     cursor: pointer;
     opacity: 0.5;
+    border: 1px solid transparent;
+   
     &.hovered,
     &.selected {
       background: white;
