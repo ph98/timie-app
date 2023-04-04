@@ -28,13 +28,11 @@ const EventPage = () => {
     {
       onSettled: (data) => {
         const myVote = data.votes.find(({ by }: any) => by._id === user._id);
-        console.log("myVote", myVote);
         setSelected(myVote.votes);
       },
     }
   );
 
-  console.log("data", data);
   const queryClient = useQueryClient();
 
   const eventItem = useMutation({
@@ -90,6 +88,7 @@ const EventPage = () => {
       <Row justify="center">
         <Col>
           <Table
+            rowKey={"_id"}
             columns={[
               { title: "Name", dataIndex: ["by", "name"] },
               {

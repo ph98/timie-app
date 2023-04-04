@@ -11,7 +11,6 @@ const LoginPage = () => {
  
   const loginWithGoogle = (token: string) => {
     axios.post("/auth/login", { token }).then(({ data }) => {
-      console.log("data", data);
       localStorage.setItem("user", JSON.stringify(data));
       message.success("Welcome back " + data.name + "!");
       navigate('/events', {replace: true})
@@ -26,7 +25,6 @@ const LoginPage = () => {
           <GoogleOAuthProvider clientId="379793684599-ha9me9uke75qe71lkgm17hak49okc7jv.apps.googleusercontent.com">
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
-                console.log(credentialResponse);
                 if (credentialResponse.credential)
                   loginWithGoogle(credentialResponse.credential);
               }}

@@ -57,7 +57,7 @@ const WeeklyPicker = ({ setSelectedCells, selectedCells }: any) => {
     <div className="weekly-picker">
       <div className="week-days">
         {weekdays.map((day) => (
-          <div className="week-day-item">
+          <div className="week-day-item" key={day.format()}>
             <Typography.Title level={3}>{day.format("dddd")}</Typography.Title>
             <Typography.Text>{day.format("MM/DD")}</Typography.Text>
           </div>
@@ -70,9 +70,10 @@ const WeeklyPicker = ({ setSelectedCells, selectedCells }: any) => {
         }}
       >
         {weekdays.map((day) => (
-          <div className="hour-row">
+          <div className="hour-row" key={day.format()}>
             {hours.map((hour) => (
               <div
+                key={hour}
                 className={`cell ${
                   selectedCells.some(
                     (item: any) =>

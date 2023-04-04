@@ -12,7 +12,6 @@ const ProfileDropDown = () => {
     queryKey: ["profile"],
     queryFn: getProfile,
   });
-  console.log("data", data);
   if (isLoading) return <span>loading ...</span>;
   return (
     <div className="profile-drop-down">

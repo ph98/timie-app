@@ -55,7 +55,6 @@ const EventsPage = () => {
         title="Title"
         open={showModal}
         onOk={()=>{
-          console.log('form.', form.getFieldsValue())
           events.mutate({title: form.getFieldsValue().title})
         }}
         confirmLoading={events.isLoading}
@@ -86,9 +85,10 @@ const EventsPage = () => {
       <Row>
         <Col className="table-col">
           <Table
+            
             loading={isLoading}
             dataSource={data}
-            rowKey="id"
+            rowKey="_id"
             columns={[
               {
                 title: "id",
