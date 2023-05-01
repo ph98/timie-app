@@ -1,6 +1,7 @@
 import {
   Button,
   Col,
+  DatePicker,
   Form,
   Input,
   Modal,
@@ -16,15 +17,19 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
+
 import axios from "../../utils/axios";
 
 import "./styles.scss";
+const { RangePicker } = DatePicker;
 
 function getEvents() {
   return axios.get("/events").then(({ data }) => data);
 }
-function createEvent({ title }) {
-  return axios.post("/events", { title }).then(({ data }) => data);
+function createEvent({ title, start: startInput, end: endInput }) {
+  const start = dayjs(startInput).format('YYYY-MM-DD')
+  const end = dayjs(endInput).format('YYYY-MM-DD')
+  return axios.post("/events", { title, start, end }).then(({ data }) => data);
 }
 
 const EventsPage = () => {
@@ -58,7 +63,11 @@ const EventsPage = () => {
         title="Title"
         open={showModal}
         onOk={() => {
-          events.mutate({ title: form.getFieldsValue().title });
+          events.mutate({ 
+            title: form.getFieldsValue().title,
+            start: form.getFieldsValue().dates[0],
+            end: form.getFieldsValue().dates[1],
+        });
         }}
         confirmLoading={events.isLoading}
         onCancel={() => {
@@ -69,11 +78,19 @@ const EventsPage = () => {
           <Form
             form={form}
             onSubmitCapture={() => {
-              events.mutate({ title: form.getFieldsValue().title });
+              console.log('form.getFieldsValue()', form.getFieldsValue())
+              events.mutate({ 
+                title: form.getFieldsValue().title,     
+                start: form.getFieldsValue().dates[0],
+                end: form.getFieldsValue().dates[1],
+              });
             }}
           >
             <Form.Item name="title">
               <Input placeholder="Title" />
+            </Form.Item>
+            <Form.Item name="dates">
+              <RangePicker />
             </Form.Item>
           </Form>
         </div>

@@ -5,12 +5,16 @@ import "./styles.scss";
 import { scaleLinear } from "d3-scale";
 import { schemeGreens } from "d3-scale-chromatic";
 
-const weekdays = [...Array(7).keys()].map((i) =>
-  dayjs().startOf("week").add(i, "day")
+
+const WeeklyPicker = ({ setSelectedCells, selectedCells, data = [],start, end }: any) => {
+
+
+const length = dayjs.duration(dayjs(end).diff(start)).asDays() || 7
+
+const weekdays = [...Array(length).keys()].map((i) =>
+dayjs(start).add(i, "day")
 );
 const hours = [...Array(24).keys()];
-
-const WeeklyPicker = ({ setSelectedCells, selectedCells, data = [] }: any) => {
   const [hovered, setHovered] = useState<any>(null);
 
   const [startNode, setStartNode] = useState<{

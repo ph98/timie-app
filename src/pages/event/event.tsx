@@ -46,7 +46,8 @@ const EventPage = () => {
     },
   });
 
-  const startDate = dayjs();
+  const startDate = dayjs(data.event.start);
+  const endDate = dayjs(data.event.end || dayjs(startDate).add(1, 'week'));
   return (
     <div className="event-page">
       <Row>
@@ -65,6 +66,8 @@ const EventPage = () => {
             setSelectedCells={setSelected}
             selectedCells={selected}
             data={data.votes}
+            start={startDate}
+            end={endDate}
           />
         </Col>
       </Row>

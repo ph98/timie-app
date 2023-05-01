@@ -6,6 +6,7 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
+import duration from 'dayjs/plugin/duration'
 import "./App.css";
 
 import EventsPage from "./pages/events/events";
@@ -14,6 +15,7 @@ import EventPage from "./pages/event/event";
 import Layout from "./components/layout";
 
 dayjs.extend(isBetween)
+dayjs.extend(duration)
 
 
 const queryClient = new QueryClient({
